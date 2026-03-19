@@ -1,8 +1,13 @@
+import 'dotenv/config'
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { db } from "@/db"
 import { users } from "@/db/schema"
 import { eq, or } from "drizzle-orm"
+
+if (!process.env.AUTH_SECRET && !process.env.NEXTAUTH_SECRET) {
+  console.error("[AUTH ERROR] Missing AUTH_SECRET or NEXTAUTH_SECRET in production.");
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -11,7 +16,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "github") {
