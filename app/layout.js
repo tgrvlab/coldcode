@@ -1,6 +1,6 @@
 import "./globals.css";
 import 'sheryjs/dist/Shery.css';
-
+import { Analytics } from "@vercel/analytics/next"
 
 
 export const metadata = {
