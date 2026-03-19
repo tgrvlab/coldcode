@@ -5,10 +5,6 @@ import { db } from "@/db"
 import { users } from "@/db/schema"
 import { eq, or } from "drizzle-orm"
 
-if (!process.env.AUTH_SECRET && !process.env.NEXTAUTH_SECRET) {
-  console.error("[AUTH ERROR] Missing AUTH_SECRET or NEXTAUTH_SECRET in production.");
-}
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GitHub({
@@ -17,6 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+
 
   callbacks: {
     async signIn({ user, account, profile }) {

@@ -5,16 +5,13 @@ import { alias } from "drizzle-orm/pg-core"
 import { NextResponse } from "next/server"
 import { getCachedSession } from "@/lib/session"
 import { 
-  redis, 
   getUserLikes, 
   setUserLikes, 
   getGlobalFeed, 
   hydratePosts, 
-  setPostCache, 
-  pushToGlobalFeed,
-  acquireLock,
-  releaseLock
+  warmGlobalFeed
 } from "@/lib/redis"
+
 import { trackMetric } from "@/lib/metrics"
 import { formatPost } from "@/lib/postFormatting"
 
